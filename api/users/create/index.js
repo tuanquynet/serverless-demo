@@ -30,6 +30,7 @@ const createUser = async ({
 
 exports.handler = async (event) => {
   console.log('create user');
+
   try {
     await db.init();
     const body = JSON.parse(event.body);
@@ -45,6 +46,6 @@ exports.handler = async (event) => {
   } catch (error) {
     throw error;
   } finally {
-    await db.init();
+    await db.close();
   }
 };

@@ -13,8 +13,11 @@ function throwException({ message, errorCode }) {
 function apiGateWayException(statusCode = 500, message = '', trace = '') {
   return {
     statusCode,
-    message,
     trace,
+    headers: {
+      'content-type': 'text/plain',
+    },
+    body: message,
   };
 }
 
@@ -30,6 +33,7 @@ const exception = {
   genericServerError: message => create({ errorCode: 500, message: message || 'Something unexpected happened' }),
 
   apiGateWayException,
+  transformToApiGateWayException: err => (apiGateWayException(err.code, err.message, err.stack)),
 };
 
 export default exception;

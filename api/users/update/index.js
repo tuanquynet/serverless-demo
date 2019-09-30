@@ -62,13 +62,9 @@ exports.handler = async (event) => {
       console.log(principalId.toString().toLowerCase());
       console.log(userId);
 
-      return {
-        statusCode: 403,
-        headers: {
-          'content-type': 'text/plain',
-        },
-        body: 'unauthorized',
-      };
+      return exception.transformToApiGateWayException(
+        exception.badRequestError(`You don't have permission to update user (${userId}).`),
+      );
     }
 
     const body = _.pick(JSON.parse(event.body), allowedFields);
@@ -84,6 +80,6 @@ exports.handler = async (event) => {
   } catch (error) {
     throw error;
   } finally {
-    await db.init();
+    await db.close();
   }
 };

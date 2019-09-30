@@ -5,7 +5,7 @@
  *  -
  * Description: return user detail
  */
-// import exception from '../../../shared/exception';
+import exception from '../../../shared/exception';
 import db from '../../../shared/db';
 
 const getUserById = async (id) => {
@@ -31,13 +31,9 @@ exports.handler = async (event) => {
     if (!authorizer || principalId.toString().toLowerCase() !== userId.toString().toLowerCase()) {
       console.log('not match principalId');
 
-      return {
-        statusCode: 403,
-        headers: {
-          'content-type': 'text/plain',
-        },
-        body: 'not match principalId',
-      };
+      return exception.transformToApiGateWayException(
+        exception.badRequestError(`You don't have permission to get detail of user (${userId}).`),
+      );
     }
 
     const user = await getUserById(userId);
@@ -51,6 +47,6 @@ exports.handler = async (event) => {
   } catch (error) {
     throw error;
   } finally {
-    await db.init();
+    await db.close();
   }
 };

@@ -254,6 +254,26 @@ functions:
       DB_USER: ${self:custom.${self:provider.stage}.env.DB_USER}
       DB_PASSWORD: ${self:custom.${self:provider.stage}.env.DB_PASSWORD}
 
+  user-delete:
+    handler: api/users/delete/index.handler
+    description: 'delete user'
+    timeout: 30
+    package:
+      include:
+        - api/users/delete/**
+    events:
+      - http:
+          path: ${self:custom.api.rootPath}/users/{userId}
+          method: delete
+          authorizer: authorizer
+          cors: true
+    vpc: ${self:custom.${self:provider.stage}.vpc}
+    environment:
+      DB_HOST: ${self:custom.${self:provider.stage}.env.DB_HOST}
+      DB_DATABASE: ${self:custom.${self:provider.stage}.env.DB_DATABASE}
+      DB_USER: ${self:custom.${self:provider.stage}.env.DB_USER}
+      DB_PASSWORD: ${self:custom.${self:provider.stage}.env.DB_PASSWORD}
+
 resources:
   Resources:
     SPCustomRole:

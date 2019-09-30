@@ -1,9 +1,6 @@
 const mandrill = require('mandrill-api/mandrill');
-const {generateHashToken} = require('./tools');
 
 const {
-  UNSUBSCRIBE_LINK = '',
-  COMMON_SECRET = 'xxxxx',
   MANDRILL_SECRET_KEY = 'xxxxx',
 } = process.env;
 

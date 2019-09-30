@@ -18,6 +18,7 @@ const getUserByEmail = async (email) => {
     SELECT *
     FROM users
     WHERE email = '${email}'
+    LIMIT 1
   `;
 
   return db.query(sql, [], {
@@ -49,8 +50,6 @@ exports.handler = async (event) => {
       return getInvalidEmailOrPasswordResponse();
     } else {
       console.log(JSON.stringify(user));
-      console.log('password', password);
-      console.log('user.password', user.password);
 
       const matchPassword = bcrypt.compareSync(password, user.password);
 
