@@ -8,10 +8,6 @@ Use serverless to build web server application
   - Install NVM: follow the installation instruction on https://github.com/nvm-sh/nvm
   - Install NodeJS 8.x via nvm: `nvm install 8`
 
-- Install all necessary node modules:
-  - cd to root project folder
-  - run `npm install`
-
 - Install MySQL
   - on macos:
     - run in terminal: `brew install mysql`
