@@ -9,6 +9,8 @@ import { rekognition, s3 } from '../shared/aws';
 const {
   INPUT_IMAGE_BUCKET = 'serverless-practice.files.rnd.upload',
   OUTPUT_IMAGE_BUCKET = 'serverless-practice.files.rnd.publish',
+  IMAGE_MAX_WIDTH = 1024,
+  IMAGE_MAX_HEIGHT = 768,
   // AVATAR_IMAGE_FILE = 'avatar.jpg',
 } = process.env;
 
@@ -148,8 +150,8 @@ function mergeAvatarIntoImage(avatarImage, targetImage, { top, left, blend = 'ov
 exports.handler = async (event) => {
   console.log('event');
   console.log(JSON.stringify(event));
-  console.log('INPUT_IMAGE_BUCKET ', INPUT_IMAGE_BUCKET);
-  console.log('OUTPUT_IMAGE_BUCKET ', OUTPUT_IMAGE_BUCKET);
+  // console.log('INPUT_IMAGE_BUCKET ', INPUT_IMAGE_BUCKET);
+  // console.log('OUTPUT_IMAGE_BUCKET ', OUTPUT_IMAGE_BUCKET);
 
   // only get first element of Records
   const [{ s3: s3EventData } = {}] = event.Records;
@@ -158,7 +160,16 @@ exports.handler = async (event) => {
   // let processingImage = loadImageFromFile(path.join(rootPath, '.temp/images/source/fram1.jpg'));
   let processingImage = await getImageFromS3(imageFileName);
 
-  const imageMetadata = await sharp(processingImage).metadata();
+  let imageMetadata = await sharp(processingImage).metadata();
+
+  if (imageMetadata.width > IMAGE_MAX_WIDTH || imageMetadata.height > IMAGE_MAX_HEIGHT) {
+    processingImage = await sharp(processingImage).resize(IMAGE_MAX_WIDTH, IMAGE_MAX_HEIGHT, {
+      fit: sharp.fit.inside,
+      withoutEnlargement: true,
+    });
+
+    imageMetadata = await sharp(processingImage).metadata();
+  }
 
   const faceDetails = await detectFaces(imageFileName);
 

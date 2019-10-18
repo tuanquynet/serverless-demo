@@ -93,6 +93,20 @@ custom:
     enabled: true
 
 functions:
+  hello-world:
+    handler: hello-world/index.handler
+    description: 'hello world'
+    timeout: 10
+    package:
+      include:
+        - hello-world/**
+    events:
+      - http:
+          path: ${self:custom.api.rootPath}/hello-world
+          method: get
+          cors: true
+    vpc: ${self:custom.${self:provider.stage}.vpc}
+
   server-info:
     handler: server-info/index.handler
     description: 'return server date time'
