@@ -109,13 +109,12 @@ functions:
     handler: myfunc/index.handler
     description: 'test policy: cloudwatch, s3, sns, rds'
     timeout: 10
-    role: 'SPCustomRole'
     package:
       include:
         - myfunc/**
     events:
       - schedule:
-          name: myfunc-scheduler-v2-${opt:stage, self:provider.stage}
+          name: myfunc-scheduler-v2--${self:service}-${opt:stage, self:provider.stage}
           description: a scheduler
           rate: rate(10 minutes)
           enabled: false
