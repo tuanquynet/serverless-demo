@@ -168,6 +168,8 @@ functions:
     package:
       include:
         - login/**
+    layers:
+      - {Ref: BinaryLambdaLayer}
     events:
       - http:
           path: ${self:custom.api.rootPath}/users/login
@@ -255,6 +257,8 @@ functions:
     package:
       include:
         - api/users/update/**
+    layers:
+      - {Ref: BinaryLambdaLayer}
     events:
       - http:
           path: ${self:custom.api.rootPath}/users/{userId}
@@ -492,3 +496,9 @@ layers:
       - nodejs8.10
     package:
       artifact: libs/sharp.zip
+  binary:
+    name: ${self:service}-${self:provider.stage}-shared-binary
+    compatibleRuntimes:
+      - nodejs8.10
+    package:
+      artifact: libs/shared-binary.zip

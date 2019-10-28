@@ -90,7 +90,7 @@ Use serverless to build web server application
 - create `update` user endpoint
 - create `delete` user endpoint
 
-Notes: If you are using macos, window laptop, the login, update lambda won't work correctly because it depend on a binary module which is required to compile on the same os of target runtime.
+Notes: If you are using bcrypt on MacOS or Window it will not be working on linux when deploying on aws lambda because bcrypt is a binary module. To fix this issue we have to configure lambda layer, and the node modules in that layer should be generated on linux.
 
 - Configure lambda layer.
   - refer to https://serverless.com/framework/docs/providers/aws/guide/layers/
@@ -99,14 +99,15 @@ Notes: If you are using macos, window laptop, the login, update lambda won't wor
 - Duration: 30 minutes
 - Checkout lab5: `git checkout feature/lab5`
 - Requirement:
-  - Write a lambda function to extract faces from images which are unloaded onto s3
+  - Write a lambda function to extract faces from images which are uploaded onto s3.
   - We use AWS Rekognition to detect faces and base on the analysed results we know the bounding boxes and use sharp lib to copy the appropriate area on the image.
-  - Save detected faces into image and upload onto another bucket of s3
+  - Save detected faces into image and upload onto another bucket of s3.
 - Read docs:
   - Developer Guide: https://docs.aws.amazon.com/rekognition/latest/dg/API_DetectFaces.html
   - AWS JS SDK: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Rekognition.html#detectFaces-property
   - Sharp Lib: https://sharp.pixelplumbing.com/en/stable/api-resize/#extract
 
+Notes: After deployed lambdas onto aws, you need to upload `avatar.png` file located in `workshop/assets` folder onto the `serverless-practice.files.rnd.upload` s3 bucket.
 
 ## Lab6: Put all together
 
