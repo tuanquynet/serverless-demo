@@ -1,0 +1,37 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 8
+    commands:
+      - echo install serverless
+      - npm install -g serverless@1.34.1
+  pre_build:
+    commands:
+      - echo npm version was `npm --version`
+      - npm install -g npm@latest
+      - echo npm version is `npm --version`
+      - echo Installing NPM dependencies.
+      - echo "Create .env"
+      - echo "" > .env
+      - npm install
+      - echo Install NPM dependencies for each lambdas
+      # - find . -maxdepth 2  -type f -name 'package.json' -execdir sh -c "pwd && npm install" \;
+  build:
+    commands:
+      - echo environment
+      - sls --version
+      - echo Build started on `date`
+      - echo run serverless build
+      - echo "$STAGE $LAMBDA_REGION"
+      - serverless deploy --stage $STAGE --region $LAMBDA_REGION
+  post_build:
+    commands:
+      - echo Build completed on `date`
+
+artifacts:
+  type: zip
+  files:
+    - serverless.yml
+    - .serverless/**/*

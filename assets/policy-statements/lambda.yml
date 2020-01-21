@@ -1,0 +1,10 @@
+# This policy define permission to invoke other lambda function
+
+
+# The same statement as `AWSLambdaVPCAccessExecutionRole` for all lambda function
+Effect: 'Allow'
+Action:
+  - 'lambda:InvokeFunction'
+  - 'lambda:InvokeAsync'
+Resource:
+- '*'
