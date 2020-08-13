@@ -57,7 +57,7 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              presets: [['env', {targets: {node: '8.15.0'}, debug: true}]],
+              presets: [['env', {targets: {node: '12.14.1'}, debug: true}]],
               plugins: ['transform-object-rest-spread', 'transform-class-properties'],
               cacheDirectory: true,
             },

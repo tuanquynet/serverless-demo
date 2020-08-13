@@ -4,6 +4,7 @@ import path from 'path';
 
 import { rekognition, s3 } from '../shared/aws';
 
+// import mockEventData from '../.my-tools/mock-data/face-processor.lambda.event.json';
 // const avatarFiles = ['The_smurf_01.png', 'The_smurf_02.png', 'The_smurf_03.png'];
 
 const {
@@ -14,7 +15,7 @@ const {
   // AVATAR_IMAGE_FILE = 'avatar.jpg',
 } = process.env;
 
-const rootPath = '/tuanquynet/research/node-framework/serverless-practice';
+const rootPath = '/Users/tuanquynet/research/node-framework/serverless-practice';
 const avatarCached = {};
 
 function loadMockFaceDetail() {
@@ -148,16 +149,17 @@ function mergeAvatarIntoImage(avatarImage, targetImage, { top, left, blend = 'ov
 }
 
 exports.handler = async (event) => {
+  // event = mockEventData;
   console.log('event');
   console.log(JSON.stringify(event));
   // console.log('INPUT_IMAGE_BUCKET ', INPUT_IMAGE_BUCKET);
   // console.log('OUTPUT_IMAGE_BUCKET ', OUTPUT_IMAGE_BUCKET);
 
   // only get first element of Records
-  const [{ s3: s3EventData } = {}] = event.Records;
+  const [{ s3: s3EventData } = {}] = event.Records || [];
   const imageFileName = (s3EventData && s3EventData.object.key);
 
-  // let processingImage = loadImageFromFile(path.join(rootPath, '.temp/images/source/fram1.jpg'));
+  // let processingImage = loadImageFromFile(path.join(rootPath, '.temp/images/source/fram2.jpg'));
   let processingImage = await getImageFromS3(imageFileName);
 
   let imageMetadata = await sharp(processingImage).metadata();
@@ -166,12 +168,16 @@ exports.handler = async (event) => {
     processingImage = await sharp(processingImage).resize(IMAGE_MAX_WIDTH, IMAGE_MAX_HEIGHT, {
       fit: sharp.fit.inside,
       withoutEnlargement: true,
-    });
+    }).toBuffer();
 
     imageMetadata = await sharp(processingImage).metadata();
   }
 
   const faceDetails = await detectFaces(imageFileName);
+
+  // TODO: local test
+  // const faceDetails = await detectFaces();
+  // const imageFileName = 'fram2';
 
   if (!faceDetails || !faceDetails.length) {
     return true;

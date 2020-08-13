@@ -1,8 +1,8 @@
-service: serverless-practice
+service: serverless-demo
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
   region: ${env:AWS_REGION, 'eu-central-1'}
   versionFunctions: false
@@ -493,12 +493,12 @@ layers:
     # path: 'libs'
     name: ${self:service}-${self:provider.stage}-sharp
     compatibleRuntimes:
-      - nodejs8.10
+      - nodejs12.x
     package:
       artifact: libs/sharp.zip
   binary:
     name: ${self:service}-${self:provider.stage}-shared-binary
     compatibleRuntimes:
-      - nodejs8.10
+      - nodejs12.x
     package:
       artifact: libs/shared-binary.zip

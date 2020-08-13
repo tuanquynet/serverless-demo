@@ -1,0 +1,38 @@
+{
+  "Records": [
+      {
+          "eventVersion": "2.1",
+          "eventSource": "aws:s3",
+          "awsRegion": "ap-southeast-1",
+          "eventTime": "2020-08-13T08:36:16.993Z",
+          "eventName": "ObjectCreated:Put",
+          "userIdentity": {
+              "principalId": "A3HHYE1L3XR08P"
+          },
+          "requestParameters": {
+              "sourceIPAddress": "118.69.35.45"
+          },
+          "responseElements": {
+              "x-amz-request-id": "F906D5AAA8DA232B",
+              "x-amz-id-2": "ND/B5qX7hOHTFrSus2FD3Cp8Je6rBZkyjYKPLN/PKRoY3flPYTEdpvlJjv7krn3KeNdrNu8yrGNwmNJFcKFIKelE6N13Eg1n"
+          },
+          "s3": {
+              "s3SchemaVersion": "1.0",
+              "configurationId": "fa1baa57-dac7-494b-ad20-4a763642d8c5",
+              "bucket": {
+                  "name": "serverless-demo.files.rnd.upload",
+                  "ownerIdentity": {
+                      "principalId": "A3HHYE1L3XR08P"
+                  },
+                  "arn": "arn:aws:s3:::serverless-demo.files.rnd.upload"
+              },
+              "object": {
+                  "key": "fram1.jpg",
+                  "size": 862826,
+                  "eTag": "c1ead025112945eb2d06e0d0947a76cf",
+                  "sequencer": "005F34FB82318BEDB5"
+              }
+          }
+      }
+  ]
+}
