@@ -42,7 +42,7 @@
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
     "mocha": "^6.1.4",
-    "serverless": "^1.50.1",
+    "serverless": "^3.25.1",
     "serverless-dotenv-plugin": "^2.1.1",
     "serverless-mocha-plugin": "^1.11.0",
     "serverless-offline": "^5.10.1",
